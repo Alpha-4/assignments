@@ -14,7 +14,20 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  res = new Map([]);
+  transactions.forEach((x) => {
+    a = {};
+    a.category = x.category;
+    a.totalSpent = x.price;
+
+    if (res.has(x.category)) {
+      a.totalSpent = res.get(x.category).totalSpent + x.price;
+      res.set(x.category, a);
+    } else {
+      res.set(x.category, a);
+    }
+  });
+  return Array.from(res.values());
 }
 
 module.exports = calculateTotalSpentByCategory;
