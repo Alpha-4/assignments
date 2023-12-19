@@ -16,6 +16,82 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.res = 0;
+    this.st = [];
+  }
+
+  add(num) {
+    this.res += num;
+  }
+
+  subtract(num) {
+    this.res -= num;
+  }
+
+  multiply(num) {
+    this.res *= num;
+  }
+
+  divide(num) {
+    if (num == 0) throw Error();
+    this.res /= num;
+  }
+
+  clear(num) {
+    this.res = 0;
+  }
+
+  getResult(num) {
+    return this.res;
+  }
+
+  calculate(str) {
+    let st = [];
+    //var i=0;
+    for (let i = 0; i < str.length; i++) {
+      if (!str[i].match(/[0-9/+/*///-/() ]/i)) throw Error();
+      else if (str[i].match(/[0-9]/i)) st.push(parseFloat(str[i]));
+      else if (str[i] === " ") continue;
+      else if (str[i] === "(") st.push(str[i]);
+      else if (str[i] === ")") {
+        a = st.pop();
+        b = st.pop();
+        if (b !== "(") throw Error();
+      } else {
+        try {
+          if (str[i] == "+") {
+            a = st.pop();
+            b = st.pop();
+            c = a + b;
+            st.push(c);
+          } else if (str[i] == "-") {
+            a = st.pop();
+            b = st.pop();
+            c = b - a;
+            st.push(c);
+          }
+          if (str[i] == "*") {
+            a = st.pop();
+            b = st.pop();
+            c = b * a;
+            st.push(c);
+          }
+          if (str[i] == "/") {
+            a = st.pop();
+            b = st.pop();
+            c = b / a;
+            st.push(c);
+          }
+        } catch (e) {
+          throw Error();
+        }
+      }
+    }
+    res = st.pop();
+    if (st.length > 0) throw Error();
+  }
+}
 
 module.exports = Calculator;
