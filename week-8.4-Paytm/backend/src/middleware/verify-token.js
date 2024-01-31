@@ -16,11 +16,14 @@ const verifyToken = (req, res, next) => {
   reqToken = reqToken.substring("Bearer ".length);
   const decoded = jwt.verify(reqToken, JWT_SECRET);
 
-  if (decoded?.id) next();
-  else
+  if (decoded?.id) {
+    req.userId = decoded.id;
+    next();
+  } else {
     return res.status(402).json({
       message: "Invalid token",
     });
+  }
 };
 
 module.exports = {
